@@ -2,7 +2,6 @@ package p2p
 
 import (
 	"errors"
-	"fmt"
 	"log"
 	"net"
 	"sync"
@@ -122,7 +121,7 @@ func (t *TCPTransport) handleConn(conn net.Conn, outbound bool) {
 	var err error
 
 	defer func() {
-		fmt.Printf("dropping peer connection: %s\n", err)
+		log.Printf("dropping peer connection: %s\n", err)
 		conn.Close()
 	}()
 
@@ -150,9 +149,9 @@ func (t *TCPTransport) handleConn(conn net.Conn, outbound bool) {
 
 		if rpc.Stream {
 			peer.wg.Add(1)
-			fmt.Printf("[%s] incoming stream, waiting...\n", conn.RemoteAddr())
+			log.Printf("[%s] incoming stream, waiting...\n", conn.RemoteAddr())
 			peer.wg.Wait()
-			fmt.Printf("[%s] stream closed\n", conn.RemoteAddr())
+			log.Printf("[%s] stream closed\n", conn.RemoteAddr())
 			continue
 		}
 
